@@ -33,6 +33,7 @@ export function LyricView({
     }
     return index;
   }, [currentTime, lines]);
+  const activeStartTime = activeIndex >= 0 ? lines[activeIndex].startTime : -1;
 
   function scrollToCurrent(behavior: ScrollBehavior = "smooth") {
     const line = lines[activeIndex];
@@ -121,7 +122,7 @@ export function LyricView({
         <div className="lyric-scroll__spacer" />
         {lines.map((line, index) => {
           const distance = activeIndex < 0 ? Number.POSITIVE_INFINITY : Math.abs(index - activeIndex);
-          const lineState = index === activeIndex
+          const lineState = (activeIndex >= 0 && line.startTime === activeStartTime)
             ? "is-current"
             : distance === 1
               ? "is-near-current"
